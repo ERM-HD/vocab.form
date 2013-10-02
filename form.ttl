@@ -35,7 +35,11 @@ frm:Form  a owl:Class ;
                           owl:cardinality "1"^^xsd:nonNegativeInteger
                           ] .
 
-frm:FormElement a owl:Class .
+frm:FormElement a                 owl:Class ;
+                rdfs:subClassOf   [ rdf:type owl:Restriction ;
+                                  owl:onProperty frm:property ;
+                                  owl:cardinality "1"^^xsd:nonNegativeInteger
+                                  ] .
 
 frm:CheckBox  a               owl:Class ;
               rdfs:subClassOf frm:FormElement .
