@@ -1,0 +1,85 @@
+@base <http://vocab.ub.uni-leipzig.de/form/> . 
+@prefix bibrm:  <http://vocab.ub.uni-leipzig.de/bibrm/> .
+@prefix cc:     <http://creativecommons.org/ns#> .
+@prefix dc:     <http://purl.org/dc/elements/1.1/> .
+@prefix dct:    <http://purl.org/dc/terms/> .
+@prefix doap:   <http://usefulinc.com/ns/doap#>.
+@prefix foaf:   <http://xmlns.com/foaf/0.1/> .
+@prefix frm:    <http://vocab.ub.uni-leipzig.de/form/> .
+@prefix owl:    <http://www.w3.org/2002/07/owl#> .
+@prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:   <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos:   <http://www.w3.org/2004/02/skos/core#> .
+@prefix vann:   <http://purl.org/vocab/vann/>.
+@prefix xsd:    <http://www.w3.org/2001/XMLSchema#> .
+@prefix ex:    <http://www.example.com>
+
+<> a owl:Ontology;
+  foaf:maker <http://aksw.org/NormanRadtke>, <http://aksw.org/AndreasNareike>, <http://aksw.org/NatanaelArndt>, <http://aksw.org/ThomasRiechert>, <http://aksw.org/Partner/LydiaUnterdoerfel>, <http://aksw.org/Partner/BjoernMuschall>, <http://aksw.org/Partner/LeanderSeige> ;
+  doap:maintainer <http://aksw.org/NormanRadtke>;
+  doap:homepage <http://aksw.org/Projects/ERM>;
+  cc:attributionName "AKSW" ;
+  vann:preferredNamespacePrefix "frm";
+  vann:preferredNamespaceUri "http://vocab.ub.uni-leipzig.de/frm/";
+  rdfs:label "Forms in RDF";
+  rdfs:isDefinedBy <> .
+
+frm:Form  a owl:Class .
+          rdfs:subClass   frm:FormElement ,
+                          [ rdf:type owl:Restriction ;
+                          owl:onProperty frm:hasFormElement ;
+                          owl:minCardinality "1"^^xsd:nonNegativeInteger
+                          ] ,
+                          [ rdf:type owl:Restriction ;
+                          owl:onProperty frm:hasTopicClass ;
+                          owl:cardinality "1"^^xsd:nonNegativeInteger
+                          ] .
+
+frm:FormElement a owl:Class .
+
+frm:CheckBox  a               owl:Class .
+              rdfs:subClassOf frm:FormElement ,
+
+frm:InputField a               owl:Class .
+               rdfs:subClassOf frm:FormElement ,
+
+frm:DropDownBox a               owl:Class .
+                rdfs:subClassOf frm:FormElement ,
+
+frm:LabelField a               owl:Class .
+               rdfs:subClassOf frm:FormElement ,
+
+frm:RadioButton a               owl:Class .
+                rdfs:subClassOf frm:FormElement ,
+
+frm:hasTopicClass a           owl:ObjectProperty .
+                  rdfs:domain frm:Form ;
+                  rdfs:range  rdfs:Class .
+
+frm:hidden a owl:DatatypeProperty .
+
+frm:defaultValue a owl:DatatypeProperty .
+
+#Example
+ex:form1 a                 frm:Form ;
+         dc:title          "EditPackage";
+         frm:hasTopicClass <bibrm:LicensePackage> ;
+         frm:hasFormElement ex:form2 ,
+                            [ a frm:InputField ;
+                              frm:property bibrm:name ;
+                              frm:hidden "false"
+                            ],
+                            [ a ex:form2 ;
+                              frm:property bibrm:hasItem .
+                            ].
+
+ex:form2 a                  frm:Form ;
+         dc:title           "EditJournal";
+         frm:hasTopicClass  <bibrm:Journal> ;
+         frm:hasFormElement [ a frm:InputField ;
+                              frm:property bibrm:price
+                            ],
+                            [ a frm:CheckBox ;
+                              frm:property bibrm:Nationallizenz ;
+                              frm:defaultValue "true"
+                            ].
