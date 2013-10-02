@@ -12,7 +12,7 @@
 @prefix skos:   <http://www.w3.org/2004/02/skos/core#> .
 @prefix vann:   <http://purl.org/vocab/vann/>.
 @prefix xsd:    <http://www.w3.org/2001/XMLSchema#> .
-@prefix ex:    <http://www.example.com>
+@prefix ex:     <http://www.example.com/> .
 
 <> a owl:Ontology;
   foaf:maker <http://aksw.org/NormanRadtke>, <http://aksw.org/AndreasNareike>, <http://aksw.org/NatanaelArndt>, <http://aksw.org/ThomasRiechert>, <http://aksw.org/Partner/LydiaUnterdoerfel>, <http://aksw.org/Partner/BjoernMuschall>, <http://aksw.org/Partner/LeanderSeige> ;
@@ -24,8 +24,8 @@
   rdfs:label "Forms in RDF";
   rdfs:isDefinedBy <> .
 
-frm:Form  a owl:Class .
-          rdfs:subClass   frm:FormElement ,
+frm:Form  a owl:Class ;
+          rdfs:subClassOf frm:FormElement ,
                           [ rdf:type owl:Restriction ;
                           owl:onProperty frm:hasFormElement ;
                           owl:minCardinality "1"^^xsd:nonNegativeInteger
@@ -37,24 +37,28 @@ frm:Form  a owl:Class .
 
 frm:FormElement a owl:Class .
 
-frm:CheckBox  a               owl:Class .
-              rdfs:subClassOf frm:FormElement ,
+frm:CheckBox  a               owl:Class ;
+              rdfs:subClassOf frm:FormElement .
 
-frm:InputField a               owl:Class .
-               rdfs:subClassOf frm:FormElement ,
+frm:InputField a               owl:Class ;
+               rdfs:subClassOf frm:FormElement .
 
-frm:DropDownBox a               owl:Class .
-                rdfs:subClassOf frm:FormElement ,
+frm:DropDownBox a               owl:Class ;
+                rdfs:subClassOf frm:FormElement .
 
-frm:LabelField a               owl:Class .
-               rdfs:subClassOf frm:FormElement ,
+frm:LabelField a               owl:Class ;
+               rdfs:subClassOf frm:FormElement .
 
-frm:RadioButton a               owl:Class .
-                rdfs:subClassOf frm:FormElement ,
+frm:RadioButton a               owl:Class ;
+                rdfs:subClassOf frm:FormElement .
 
-frm:hasTopicClass a           owl:ObjectProperty .
+frm:hasTopicClass a           owl:ObjectProperty ;
                   rdfs:domain frm:Form ;
                   rdfs:range  rdfs:Class .
+
+frm:property      a           owl:ObjectProperty ;
+                  rdfs:domain frm:FormElement ;
+                  rdfs:range  rdfs:Property .
 
 frm:hidden a owl:DatatypeProperty .
 
@@ -70,7 +74,7 @@ ex:form1 a                 frm:Form ;
                               frm:hidden "false"
                             ],
                             [ a ex:form2 ;
-                              frm:property bibrm:hasItem .
+                              frm:property bibrm:hasItem
                             ].
 
 ex:form2 a                  frm:Form ;
